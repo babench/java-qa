@@ -1,8 +1,10 @@
 package ru.otus.zaikin.logger;
 
-import org.influxdb.dto.Point;
+import org.junit.runner.Description;
+
+import java.time.Instant;
 
 public interface TestStatusChannel {
 
-    void send(final Point point);
+    void send(Description description, TestStatus testStatus, Instant start);
 }

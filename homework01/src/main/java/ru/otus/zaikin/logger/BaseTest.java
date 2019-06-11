@@ -1,4 +1,4 @@
-package ru.otus.zaikin;
+package ru.otus.zaikin.logger;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.After;

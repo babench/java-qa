@@ -3,6 +3,7 @@ package ru.otus.zaikin;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Rule;
 import org.junit.Test;
+import ru.otus.zaikin.logger.CustomTestWatcher;
 
 import java.util.Random;
 
