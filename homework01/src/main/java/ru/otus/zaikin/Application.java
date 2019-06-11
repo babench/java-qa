@@ -9,11 +9,11 @@ public class Application {
 
     public static void main(String[] args) {
         log.debug("Application.main");
-        Properties prop = new AppResources().loadPropertiesFile("config.properties");
+        Properties prop = AppProperties.getInstance().getProperties();
         log.debug("Properties are:");
         prop.forEach((k, v) -> log.debug(k + ":" + v));
 
-        log.debug("check");
+        log.debug("gettest status severity and channel");
         log.debug(prop.getProperty("tests.status.severity"));
         log.debug(prop.getProperty("tests.status.channel"));
     }

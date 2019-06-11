@@ -117,6 +117,7 @@
         <!-- Loading all ${} -->
         <filters>
             <filter>src/main/resources/env/config.${env}.properties</filter>
+            <filter>src/main/resources/log4j2.xml</filter>
         </filters>
 
         <!-- Map ${} into resources -->
@@ -126,6 +127,13 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>log4j2.xml</include>
                 </includes>
             </resource>
         </resources>

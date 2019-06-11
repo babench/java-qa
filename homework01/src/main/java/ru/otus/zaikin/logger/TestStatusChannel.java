@@ -2,7 +2,7 @@ package ru.otus.zaikin.logger;
 
 import org.influxdb.dto.Point;
 
-public interface TestResultChannel {
+public interface TestStatusChannel {
 
     void send(final Point point);
 }

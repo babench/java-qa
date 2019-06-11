@@ -1,6 +1,6 @@
 package ru.otus.zaikin.logger;
 
-public enum TestStatusOutputChannel {
+public enum TestStatusChannelType {
     CONSOLE,
     INFLUXDB,
     SLACK
