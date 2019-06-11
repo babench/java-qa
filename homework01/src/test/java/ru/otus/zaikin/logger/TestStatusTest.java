@@ -14,6 +14,12 @@ public class TestStatusTest {
         Assert.assertEquals(TestStatus.PASS, testStatus);
         Assert.assertEquals("PASS", testStatus.toString());
         Assert.assertEquals("PASS", String.valueOf(testStatus));
+    }
+
+    @Test
+    public void shouldRead() {
+        TestStatus testStatus = TestStatus.valueOf("PASS");
+        Assert.assertNotNull(testStatus);
         Assert.assertEquals(1, testStatus.ordinal());
     }
 }
