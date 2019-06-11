@@ -33,3 +33,8 @@
  docker run -d -p 3000:3000 --name=grafana -e "GF_INSTALL_PLUGINS=grafana-piechart-panel"  grafana/grafana
  
  Пример итогов в Grafana расположен в docs\Grafana_sample.png
+ 
+## Подробности реализация
+
+1. В pom.xml созданы профили {dev;uat;preprod;prod}. По умолчанию активен dev.
+2. Фабрика логирования возращает каким способом записывать протокол тестирования.

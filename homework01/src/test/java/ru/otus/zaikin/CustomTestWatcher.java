@@ -5,14 +5,14 @@ import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import ru.otus.zaikin.logger.TestStatus;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class CustomTestWatcher extends TestWatcher {
-    private Instant start ;
+    private Instant start;
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -28,28 +28,28 @@ public class CustomTestWatcher extends TestWatcher {
     @Override
     protected void succeeded(Description description) {
         super.succeeded(description);
-        sendTestMethodStatus(description, "PASS");
+        sendTestMethodStatus(description, TestStatus.PASS);
     }
 
     @Override
     protected void failed(Throwable e, Description description) {
         super.failed(e, description);
-        sendTestMethodStatus(description, "FAIL");
+        sendTestMethodStatus(description, TestStatus.FAIL);
     }
 
     @Override
     protected void skipped(AssumptionViolatedException e, Description description) {
         super.skipped(e, description);
-        sendTestMethodStatus(description, "SKIPPED");
+        sendTestMethodStatus(description, TestStatus.SKIPPED);
     }
 
-    private void sendTestMethodStatus(Description description, String status) {
+    private void sendTestMethodStatus(Description description, TestStatus testStatus) {
         Point point = Point.measurement("testmethod")
                 .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                 .tag("testclass", description.getClassName())
                 .tag("methodname", description.getMethodName())
-                .tag("result", status)
-                .addField("duration",  Duration.between(start, Instant.now()).toMillis())
+                .tag("result", testStatus.toString())
+                .addField("duration", Duration.between(start, Instant.now()).toMillis())
                 .build();
         ResultSender.send(point);
     }
