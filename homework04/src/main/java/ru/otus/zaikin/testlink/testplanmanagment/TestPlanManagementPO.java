@@ -3,6 +3,9 @@ package ru.otus.zaikin.testlink.testplanmanagment;
 import com.lazerycode.selenium.util.Query;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.testlink.BasePage;
 import ru.otus.zaikin.testlink.entity.TestPlanManagementEntity;
 
@@ -55,13 +58,6 @@ public class TestPlanManagementPO extends BasePage {
 
         nameLocator.findWebElement().clear();
         nameLocator.findWebElement().sendKeys(entity.getName());
-
-        /*TODO: delete*/
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         if (entity.getDescription() != null && !entity.getDescription().isEmpty()) {
             sendKeysToContents(descriptionLocatorPosition, entity.getDescription());

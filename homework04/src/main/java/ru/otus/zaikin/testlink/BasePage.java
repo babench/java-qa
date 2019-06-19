@@ -2,7 +2,11 @@ package ru.otus.zaikin.testlink;
 
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.framework.AppProperties;
 import ru.otus.zaikin.framework.DriverBase;
 
@@ -60,7 +64,14 @@ public abstract class BasePage {
     }
 
     public void sendKeysToContents(int index, String value) {
-        driver.switchTo().frame(driver.findElement(By.id("cke_" + index + "_contents")).findElement(By.cssSelector("iframe")));
+        Wait wait = new WebDriverWait(driver, 2);
+        wait.until(d -> ExpectedConditions.elementToBeClickable(getCkeIframe(index)));
+
+        driver.switchTo().frame(getCkeIframe(index));
         driver.findElement(By.cssSelector("body")).sendKeys(value);
+    }
+
+    public WebElement getCkeIframe(int index) {
+        return driver.findElement(By.id("cke_" + index + "_contents")).findElement(By.cssSelector("iframe"));
     }
 }
