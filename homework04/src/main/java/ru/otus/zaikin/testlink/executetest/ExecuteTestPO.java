@@ -44,18 +44,18 @@ public class ExecuteTestPO extends BasePage {
         switchToFrame(Frames.treeframe);
         driver.findElement(By.id("expand_tree")).click();
 
-        /*todo:remove*/
-        try {
+        /*try {
             Thread.sleep(300);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        */
 
-        /*Wait explicitWait = new WebDriverWait(driver, 10);
-        explicitWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".x-tree-node-leaf span.light_not_run"), 1));
+        Wait explicitWait = new WebDriverWait(driver, 10);
+        explicitWait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector(".x-tree-node-leaf span.light_not_run"), 0));
         log.debug("numbers:" + driver.findElements(By.cssSelector(".x-tree-node-leaf span.light_not_run")).size());
         explicitWait.until(ExpectedConditions.elementToBeClickable(driver.findElements(By.cssSelector(".x-tree-node-leaf span.light_not_run")).get(0)));
-*/
+
         driver.findElements(By.cssSelector(".x-tree-node-leaf span.light_not_run")).get(0).click();
         switchToMainFrame();
         switchToFrame(Frames.workframe);
