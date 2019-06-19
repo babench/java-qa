@@ -48,7 +48,7 @@ public class TestSuiteTest extends DriverBase {
         fillTestCases(entity);
     }
 
-    @Test(invocationCount = 3)
+    @Test(invocationCount = 10)
     public void shouldAddSteps() {
         TestSuiteEntity entity = TestSuiteHelper.generateData();
         entity.setSuiteName("TEST_SUITE_" + new Random().nextInt(1000));

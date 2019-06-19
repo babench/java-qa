@@ -55,14 +55,15 @@ public class TestSuitePO extends BasePage {
     }
 
     TestSuitePO showActions() {
-        Wait explicitWait = (new WebDriverWait(driver, 10));
-        explicitWait.until(ExpectedConditions.visibilityOfElementLocated(actions.locator()));
-        explicitWait.until(ExpectedConditions.elementToBeClickable(actions.locator()));
+        new WebDriverWait(driver, 2).until(d -> ExpectedConditions.presenceOfElementLocated(actions.locator()));
+        new WebDriverWait(driver, 2).until(d -> ExpectedConditions.elementToBeClickable(actions.locator()));
         actions.findWebElement().click();
         return this;
     }
 
     TestSuitePO create() {
+        new WebDriverWait(driver, 2).until(d -> ExpectedConditions.presenceOfElementLocated(toolbalNew.locator()));
+        new WebDriverWait(driver, 2).until(d -> ExpectedConditions.elementToBeClickable(toolbalNew.locator()));
         toolbalNew.findWebElement().click();
         return this;
     }
@@ -88,17 +89,16 @@ public class TestSuitePO extends BasePage {
     }
 
     private TestSuitePO chooseSuite(String suiteName) {
-        getSuiteElement(suiteName).click();
+        WebElement suiteElement = getSuiteElement(suiteName);
+        new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(getSuiteElement(suiteName)));
+        suiteElement.click();
+        log.debug("element clicked");
         return this;
     }
 
     private WebElement getSuiteElement(String suiteName) {
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Wait wait = new WebDriverWait(driver, 10);
+
+        Wait wait = new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(".x-tree-node>div:not(.x-tree-node-leaf)>a")));
 
         List<WebElement> elements = driver.findElements(By.cssSelector(".x-tree-node>div:not(.x-tree-node-leaf)>a"));
@@ -119,7 +119,8 @@ public class TestSuitePO extends BasePage {
     }
 
     private TestSuitePO addTestCase(TestCaseEntity testCaseEntity) {
-        Wait wait = new WebDriverWait(driver,10);
+        Wait wait = new WebDriverWait(driver, 3);
+        wait.until(ExpectedConditions.presenceOfElementLocated(testCaseNewButton.locator()));
         wait.until(ExpectedConditions.elementToBeClickable(testCaseNewButton.locator()));
         testCaseNewButton.findWebElement().click();
         /*TODO: testcase sub page candidate*/
@@ -149,7 +150,7 @@ public class TestSuitePO extends BasePage {
     private TestSuitePO addStep(TestCaseStepEntity testCaseStepEntity) {
         switchToMainFrame();
         switchToFrame(Frames.workframe);
-        Wait wait = new WebDriverWait(driver,10);
+        Wait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(stepCreate.locator()));
         stepCreate.findWebElement().click();
 
@@ -174,15 +175,32 @@ public class TestSuitePO extends BasePage {
         log.debug("TestSuitePO.populateTestCases");
         for (int i = 0; i < entity.getTestCasesSize(); i++) {
             TestCaseEntity entityTestCase = entity.getTestCase(i);
-            /*activate suite in tree*/
+            String title = "null";
+            while (!title.equals("Test Suite : " + entity.getSuiteName())) {
+                title = activateSuiteAndGetTitle(entity);
+            }
+
+            showActions().addTestCase(entityTestCase).saveTestCase();
+
             switchToMainFrame();
             activateTreeFrame().chooseSuite(entity.getSuiteName());
-
-            /*go to main and input in workframe*/
-            switchToMainFrame();
-            activateWorkFrame().showActions().addTestCase(entityTestCase).saveTestCase();
         }
         return this;
+    }
+
+    private String activateSuiteAndGetTitle(TestSuiteEntity entity) {
+        /*activate suite in tree*/
+        switchToMainFrame();
+        activateTreeFrame().chooseSuite(entity.getSuiteName());
+
+        /*go to main and input in workframe*/
+        switchToMainFrame();
+        activateWorkFrame();
+        String title = "null";
+        if (driver.findElements(By.cssSelector(".simple>tbody>tr>th")).size() > 0) {
+            title = driver.findElement(By.cssSelector(".simple>tbody>tr>th")).getText();
+        }
+        return title;
     }
 
     TestSuitePO populateTestCasesSteps(TestSuiteEntity entity) {

@@ -31,7 +31,6 @@ public class DriverFactory {
     public RemoteWebDriver getDriver() throws MalformedURLException {
         if (null == webDriver) {
             instantiateWebDriver(selectedDriverType);
-            webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
 
         return webDriver;
