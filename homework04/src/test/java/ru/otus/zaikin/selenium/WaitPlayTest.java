@@ -37,6 +37,7 @@ public class WaitPlayTest extends DriverBase {
 
     @Test
     public void errorCase() {
+        driver.manage().timeouts().implicitlyWait(0, SECONDS);
         String elem_5 = driver.findElement(By.id("elem_5")).getText();
         assertThat(elem_5).isEqualTo("Element #5");
     }
@@ -63,12 +64,14 @@ public class WaitPlayTest extends DriverBase {
 
     @Test
     public void fixMe3ByImplicitWaitWorks() {
+        driver.manage().timeouts().implicitlyWait(15, SECONDS);
         String elem_5 = driver.findElement(By.id("elem_5")).getText();
         assertThat(elem_5).isEqualTo("Element #5");
     }
 
     @Test
     public void fixMe4ByExplicitWait() {
+        driver.manage().timeouts().implicitlyWait(0, SECONDS);
         Wait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("elem_5")));
         String elem_5 = driver.findElement(By.id("elem_5")).getText();
@@ -96,10 +99,11 @@ public class WaitPlayTest extends DriverBase {
 
     @Test
     public void fixMe7ByExplicitWait() {
+        driver.manage().timeouts().implicitlyWait(0, SECONDS);
         Wait wait = new WebDriverWait(driver, 3);
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(By.cssSelector("div[id^='elem_'"),2));
-        String elem_1 = driver.findElement(By.id("elem_5")).getText();
-        assertThat(elem_1).isEqualTo("Element #5");
+        String elem_5 = driver.findElement(By.id("elem_5")).getText();
+        assertThat(elem_5).isEqualTo("Element #5");
     }
 
 }
