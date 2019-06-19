@@ -34,6 +34,8 @@
         <!-- Plugin versions -->
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>2.21.0</maven-failsafe-plugin.version>
+
+        <jetty.version>9.4.15.v20190215</jetty.version>
         <!-- Configurable variables -->
         <threads>1</threads>
         <browser>chrome</browser>
@@ -69,14 +71,13 @@
                 <env>prod</env>
             </properties>
         </profile>
-
     </profiles>
 
     <build>
         <!-- Loading all ${} -->
         <filters>
             <filter>src/main/resources/env/config.${env}.properties</filter>
-            <filter>src/main/resources/log4j2.xml</filter>
+            <!--<filter>src/main/resources/log4j2.xml</filter>-->
         </filters>
 
         <!-- Map ${} into resources -->
@@ -95,6 +96,12 @@
                     <include>log4j2.xml</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>src/main/resources/webroot</directory>
+                <filtering>false</filtering>
+                <targetPath>webroot</targetPath>
+            </resource>
+
         </resources>
 
         <plugins>
@@ -193,6 +200,17 @@
             <groupId>com.lazerycode.selenium</groupId>
             <artifactId>query</artifactId>
             <version>1.2.0</version>
+        </dependency>
+        <!--jetty-->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
     </dependencies>
 
