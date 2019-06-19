@@ -55,6 +55,7 @@ public abstract class BasePage {
     }
 
     public void switchToFrame(Frames frames) {
+        new WebDriverWait(driver, 5).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//frame[@name='" + frames.name() + "']")));
         driver.switchTo().frame(frames.name());
     }
 

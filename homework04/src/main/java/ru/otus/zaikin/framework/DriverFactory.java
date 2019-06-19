@@ -5,6 +5,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
+import java.util.concurrent.TimeUnit;
 
 import static ru.otus.zaikin.framework.DriverType.FIREFOX;
 
@@ -48,5 +49,6 @@ public class DriverFactory {
         log.debug("Selected Browser: " + selectedDriverType);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         webDriver = driverType.getWebDriverObject(desiredCapabilities);
+        webDriver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 }
