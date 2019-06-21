@@ -81,7 +81,7 @@ public class WaitPlayTest extends DriverBase {
     @Test
     public void fixMe5WaitRace() {
         /*should it fail or not?*/
-        driver.manage().timeouts().implicitlyWait(2, SECONDS);
+        driver.manage().timeouts().implicitlyWait(15, SECONDS);
         Wait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("elem_5")));
         String elem_5 = driver.findElement(By.id("elem_5")).getText();
