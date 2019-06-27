@@ -24,7 +24,7 @@ public class TestLinkApiAutomaticTests {
 
     TestLinkAPI client;
     String url = "http://192.168.99.100/lib/api/xmlrpc/v1/xmlrpc.php";
-    String devKey = "da552ac72dcc80b991d257cc13224b33";
+    String devKey = "3a191c47c5d74b4d967cf400d1a555cc";
 
 
     @BeforeMethod
