@@ -11,40 +11,38 @@
 
     <artifactId>ear</artifactId>
     <packaging>ear</packaging>
-    <properties>
-        <junit.version>4.12</junit.version>
-    </properties>
 
     <name>ear</name>
+    <properties>
+        <webapp.version>1.0-SNAPSHOT</webapp.version>
+        <simple.version>1.0-SNAPSHOT</simple.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ru.otus.zaikin</groupId>
             <artifactId>webapp</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${webapp.version}</version>
             <type>war</type>
         </dependency>
         <dependency>
             <groupId>ru.otus.zaikin</groupId>
             <artifactId>simple</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${simple.version}</version>
             <type>jar</type>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-ear-plugin</artifactId>
-                <version>3.0.1</version>
                 <configuration>
                     <modules>
                         <webModule>
@@ -61,6 +59,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
