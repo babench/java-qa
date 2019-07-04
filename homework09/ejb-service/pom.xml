@@ -11,6 +11,14 @@
     <artifactId>ejb-service</artifactId>
     <packaging>ejb</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
