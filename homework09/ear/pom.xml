@@ -13,10 +13,6 @@
     <packaging>ear</packaging>
 
     <name>ear</name>
-    <properties>
-        <webapp.version>1.0-SNAPSHOT</webapp.version>
-        <simple.version>1.0-SNAPSHOT</simple.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -25,15 +21,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>ru.otus.zaikin</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>webapp</artifactId>
-            <version>${webapp.version}</version>
+            <version>${project.version}</version>
             <type>war</type>
         </dependency>
         <dependency>
-            <groupId>ru.otus.zaikin</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>simple</artifactId>
-            <version>${simple.version}</version>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
