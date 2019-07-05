@@ -13,4 +13,6 @@ Dmitry Eremin
 Semen Vyazemsky
 
 Alexey Orehov:
-https://github.com/PokimonZerg?tab=repositories
+https://github.com/PokimonZerg
+
+Вадим Глушонков: https://github.com/vglushonkov
