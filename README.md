@@ -18,3 +18,4 @@ https://github.com/PokimonZerg
 Вадим Глушонков: https://github.com/vglushonkov
 
 added in master
+Added line in master!
