@@ -16,3 +16,5 @@ Alexey Orehov:
 https://github.com/PokimonZerg
 
 Вадим Глушонков: https://github.com/vglushonkov
+
+Added line in master!
