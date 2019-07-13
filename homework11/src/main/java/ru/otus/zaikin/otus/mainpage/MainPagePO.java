@@ -1,6 +1,7 @@
 package ru.otus.zaikin.otus.mainpage;
 
-import ru.otus.zaikin.google.BasePage;
+
+import ru.otus.zaikin.otus.BasePage;
 
 public class MainPagePO extends BasePage {
 

@@ -32,6 +32,4 @@ public abstract class BasePage {
     protected WebDriverWait createAndGetWait() {
         return new WebDriverWait(driver, 15);
     }
-
-
 }
