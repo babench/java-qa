@@ -43,21 +43,39 @@ public class IndexPagePO extends BasePage {
         driver.findElement(By.cssSelector(".c-radiogroup__item[href='?sort=selling#filter']")).click();
         Wait wait = new WebDriverWait(driver, Drive2Config.TIMEOUT);
         wait.until(d -> driver.findElement(By.cssSelector(".c-radiogroup__item.is-active")).getText().equalsIgnoreCase("В ПРОДАЖЕ"));
-        List<WebElement> card = new ArrayList<>();
-        int currentSize = -1;
+        List<WebElement> card;
         wait.until(d -> driver.findElement(By.cssSelector(".l-page-header ")).getText().contains("Продажа машин с историей"));
 
-        while (currentSize < card.size()) {
-            currentSize = card.size();
-            ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,5000)");
-            try {
-                wait.until(and(invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecars']")), (numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), currentSize))));
+        card = driver.findElements(By.cssSelector(".c-car-card-sa"));
+        boolean moreCarsExists = driver.findElements(By.cssSelector("button.[data-action='catalog.morecars']")).size() > 0;
+        if (moreCarsExists) {
+            long scrollHeightCurrent = 0L;
+            long scrollHeightNew = 1L;
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            while (scrollHeightCurrent < scrollHeightNew) {
+                scrollHeightCurrent = ((Number) (((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight"))).longValue();
+                log.debug("scrollHeightCurrent:" + scrollHeightCurrent);
+                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 5000)");
+
+                try {
+                    wait.until(and
+                            (
+                                    invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecars']")),
+                                    //numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), card.size()),
+                                    presenceOfAllElementsLocatedBy(By.cssSelector(".c-car-card-sa"))
+                            )
+                    );
+                } catch (Exception e) {
+                    log.debug("No new element");
+                    log.warn(e);
+                }
+                scrollHeightNew = ((Number) (((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight"))).longValue();
+
+                //card = driver.findElements(By.cssSelector(".c-car-card-sa"));
+                log.debug("scrollHeightNew:" + scrollHeightNew);
             }
-            card = driver.findElements(By.cssSelector(".c-car-card-sa"));
         }
+        card = driver.findElements(By.cssSelector(".c-car-card-sa"));
 
         card.forEach(e -> {
             CarEntitySet entitySet = new CarEntitySet();
