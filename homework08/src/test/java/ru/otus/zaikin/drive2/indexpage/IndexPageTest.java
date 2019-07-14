@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import ru.otus.zaikin.drive2.Drive2Config;
 import ru.otus.zaikin.drive2.entity.CarBrendSet;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
 import ru.otus.zaikin.drive2.hibernate.HibernateDao;
@@ -80,32 +81,6 @@ public class IndexPageTest extends DriverBase {
         assertThat(mazda.getText()).isEqualTo("Mazda");
         mazda.click();
         System.out.println("here");
-    }
-
-    @Test
-    public void shouldReadAllMazda() throws InterruptedException {
-        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >div>a"));
-        Optional<WebElement> optionalWebElement = cars.stream().filter(e -> e.getText().equalsIgnoreCase("MAZDA")).findFirst();
-        WebElement mazda = optionalWebElement.orElseThrow(() -> new RuntimeException("Mazda not found"));
-        assertThat(mazda.getText()).isEqualTo("Mazda");
-        mazda.click();
-        List<WebElement> card = new ArrayList<>();
-        int currentSize = -1;
-        Thread.sleep(5000);
-        Wait wait = new WebDriverWait(driver, 10);
-        while (currentSize < card.size()) {
-            currentSize = card.size();
-            ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,5000)");
-            try {
-                wait.until(and(invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecards']")), (numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), currentSize))));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            card = driver.findElements(By.cssSelector(".c-car-card-sa"));
-        }
-        card.forEach(log::debug);
-        log.debug("cards size:" + card.size());
     }
 
     @Test

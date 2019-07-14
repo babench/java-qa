@@ -51,7 +51,8 @@ public class DriverBase {
     @AfterSuite(alwaysRun = true)
     public static void closeDriverObjects() {
         for (DriverFactory webDriverThread : webDriverThreadPool) {
-            webDriverThread.quitDriver();
+
+            //webDriverThread.quitDriver();
         }
     }
 }

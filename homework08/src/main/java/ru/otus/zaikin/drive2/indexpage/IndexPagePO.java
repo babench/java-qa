@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.drive2.BasePage;
+import ru.otus.zaikin.drive2.Drive2Config;
 import ru.otus.zaikin.drive2.entity.CarBrendSet;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
 import ru.otus.zaikin.drive2.hibernate.HibernateDao;
@@ -40,7 +41,7 @@ public class IndexPagePO extends BasePage {
         WebElement brendElement = optionalWebElement.orElseThrow(() -> new RuntimeException(brend + " not found"));
         brendElement.click();
         driver.findElement(By.cssSelector(".c-radiogroup__item[href='?sort=selling#filter']")).click();
-        Wait wait = new WebDriverWait(driver, 10);
+        Wait wait = new WebDriverWait(driver, Drive2Config.TIMEOUT);
         wait.until(d -> driver.findElement(By.cssSelector(".c-radiogroup__item.is-active")).getText().equalsIgnoreCase("В ПРОДАЖЕ"));
         List<WebElement> card = new ArrayList<>();
         int currentSize = -1;
@@ -50,7 +51,7 @@ public class IndexPagePO extends BasePage {
             currentSize = card.size();
             ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,5000)");
             try {
-                wait.until(and(invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecards']")), (numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), currentSize))));
+                wait.until(and(invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecars']")), (numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), currentSize))));
 
             } catch (Exception e) {
                 e.printStackTrace();
