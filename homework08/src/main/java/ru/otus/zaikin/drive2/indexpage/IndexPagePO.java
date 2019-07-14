@@ -12,7 +12,6 @@ import ru.otus.zaikin.drive2.entity.CarBrendSet;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
 import ru.otus.zaikin.drive2.hibernate.HibernateDao;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +21,16 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.*;
 public class IndexPagePO extends BasePage {
     private HibernateDao dao;
 
+    private By carCardsLocator = By.cssSelector(".c-car-card-sa");
+    private By moreCarsButtonLocator = By.cssSelector("button[data-action='catalog.morecars']");
+    private By brandsLocator = By.cssSelector("div.c-index-alt__brands > div > a");
+
     public IndexPagePO(HibernateDao dao) {
         this.dao = dao;
     }
 
     public IndexPagePO saveBrends() {
-        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands > div > a"));
+        List<WebElement> cars = driver.findElements(brandsLocator);
         cars.forEach(e -> {
             CarBrendSet carBrendSet = new CarBrendSet(e.getText());
             dao.create(carBrendSet);
@@ -36,7 +39,7 @@ public class IndexPagePO extends BasePage {
     }
 
     public void saveCarsOfBrend(String brend) {
-        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands > div > a"));
+        List<WebElement> cars = driver.findElements(brandsLocator);
         Optional<WebElement> optionalWebElement = cars.stream().filter(e -> e.getText().equalsIgnoreCase(brend)).findFirst();
         WebElement brendElement = optionalWebElement.orElseThrow(() -> new RuntimeException(brend + " not found"));
         brendElement.click();
@@ -45,37 +48,23 @@ public class IndexPagePO extends BasePage {
         wait.until(d -> driver.findElement(By.cssSelector(".c-radiogroup__item.is-active")).getText().equalsIgnoreCase("В ПРОДАЖЕ"));
         List<WebElement> card;
         wait.until(d -> driver.findElement(By.cssSelector(".l-page-header ")).getText().contains("Продажа машин с историей"));
+        card = driver.findElements(carCardsLocator);
 
-        card = driver.findElements(By.cssSelector(".c-car-card-sa"));
-        boolean moreCarsExists = driver.findElements(By.cssSelector("button.[data-action='catalog.morecars']")).size() > 0;
+        boolean moreCarsExists = driver.findElements(moreCarsButtonLocator).size() > 0;
         if (moreCarsExists) {
-            long scrollHeightCurrent = 0L;
-            long scrollHeightNew = 1L;
-
-            while (scrollHeightCurrent < scrollHeightNew) {
-                scrollHeightCurrent = ((Number) (((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight"))).longValue();
-                log.debug("scrollHeightCurrent:" + scrollHeightCurrent);
+            int currentSize;
+            do {
+                currentSize = card.size();
                 ((JavascriptExecutor) driver).executeScript("window.scrollBy(0, 5000)");
-
-                try {
-                    wait.until(and
-                            (
-                                    invisibilityOfElementLocated(By.cssSelector("button.[data-action='catalog.morecars']")),
-                                    //numberOfElementsToBeMoreThan(By.cssSelector(".c-car-card-sa"), card.size()),
-                                    presenceOfAllElementsLocatedBy(By.cssSelector(".c-car-card-sa"))
-                            )
-                    );
-                } catch (Exception e) {
-                    log.debug("No new element");
-                    log.warn(e);
-                }
-                scrollHeightNew = ((Number) (((JavascriptExecutor) driver).executeScript("return document.body.scrollHeight"))).longValue();
-
-                //card = driver.findElements(By.cssSelector(".c-car-card-sa"));
-                log.debug("scrollHeightNew:" + scrollHeightNew);
-            }
+                wait.until(or
+                        (
+                                invisibilityOfElementLocated(moreCarsButtonLocator),
+                                numberOfElementsToBeMoreThan(carCardsLocator, card.size())
+                        )
+                );
+                card = driver.findElements(carCardsLocator);
+            } while (currentSize < card.size());
         }
-        card = driver.findElements(By.cssSelector(".c-car-card-sa"));
 
         card.forEach(e -> {
             CarEntitySet entitySet = new CarEntitySet();
