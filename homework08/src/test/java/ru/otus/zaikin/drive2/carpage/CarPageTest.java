@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.hibernate.Session;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import ru.otus.zaikin.drive2.hibernate.HibernateDao;
 import ru.otus.zaikin.drive2.hibernate.HibernateFactorySessionHolder;
@@ -13,10 +14,8 @@ import java.net.MalformedURLException;
 
 @Log4j2
 public class CarPageTest extends DriverBase {
-
     private WebDriver driver;
     private CarPagePO carPagePO;
-
 
     @BeforeMethod
     public void setUp() throws MalformedURLException {
@@ -32,7 +31,10 @@ public class CarPageTest extends DriverBase {
         carPagePO = new CarPagePO(dao);
     }
 
+    //Ingore all test in case of in memory mode
+
     @Test
+    @Ignore
     public void shouldOpenCarById() {
         log.debug("CarPageTest.shouldOpenCarById");
         carPagePO.openCarById(11L);
@@ -40,6 +42,7 @@ public class CarPageTest extends DriverBase {
     }
 
     @Test
+    @Ignore
     public void shouldReadUSD() {
         long id = 6L;
         carPagePO.openCarById(id).readFieldsAndUpdateEntity(id);
@@ -47,6 +50,7 @@ public class CarPageTest extends DriverBase {
     }
 
     @Test
+    @Ignore
     public void shouldReadRUR() {
         long id = 11L;
         carPagePO.openCarById(id).readFieldsAndUpdateEntity(id);

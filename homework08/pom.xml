@@ -50,6 +50,7 @@
         <hibernate-core.version>5.4.2.Final</hibernate-core.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
         <query.version>1.2.0</query.version>
+        <maven-help-plugin.version>3.1.0</maven-help-plugin.version>
     </properties>
 
     <profiles>
@@ -118,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-help-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-help-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>show-profiles</id>
