@@ -1,7 +1,6 @@
 package ru.otus.zaikin.drive2.hibernate;
 
 import lombok.extern.log4j.Log4j;
-import lombok.extern.log4j.Log4j2;
 import org.hibernate.cfg.Configuration;
 import ru.otus.zaikin.drive2.entity.CarBrendSet;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;

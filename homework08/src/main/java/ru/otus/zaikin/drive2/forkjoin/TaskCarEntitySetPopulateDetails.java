@@ -10,25 +10,23 @@ import ru.otus.zaikin.framework.DriverBase;
 import java.net.MalformedURLException;
 import java.util.List;
 
-import static ru.otus.zaikin.framework.DriverBase.getDriver;
 
 /**
  * Process Car Entities from DB
  */
 @Log4j2
-class TaskCarEntitySetPopulateDetails {
+public class TaskCarEntitySetPopulateDetails {
     private final List<CarEntitySet> list;
     private final int start; /*start includes in compute*/
     private final int end; /*end not includes to compute*/
     final int size;
     private final HibernateDao dao;
-
     public HibernateDao getDao() {
         return dao;
     }
 
-    TaskCarEntitySetPopulateDetails(List<CarEntitySet> list, int start, int end, HibernateDao dao) {
-        System.out.println("TaskCarEntitySetPopulateDetails.TaskCarEntitySetPopulateDetails");
+    public TaskCarEntitySetPopulateDetails(List<CarEntitySet> list, int start, int end, HibernateDao dao) {
+        log.debug("TaskCarEntitySetPopulateDetails");
         this.list = list;
         this.start = start;
         this.end = end;
@@ -37,7 +35,6 @@ class TaskCarEntitySetPopulateDetails {
         log.debug("start:" + this.start);
         log.debug("end:" + this.end);
         log.debug("size:" + this.size);
-
     }
 
     TaskCarEntitySetPopulateDetails createSubTask(int subStart, int subEnd, HibernateDao dao) {
@@ -50,7 +47,7 @@ class TaskCarEntitySetPopulateDetails {
         DriverBase.instantiateDriverObject();
         WebDriver driver = null;
         try {
-            driver = getDriver();
+            driver = DriverBase.getDriver();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -71,7 +68,7 @@ class TaskCarEntitySetPopulateDetails {
         }
 
         log.debug("processed " + objectsProcessed);
-        DriverBase.closeDriverObjects();
+        driver.quit();
         return objectsProcessed;
     }
 }

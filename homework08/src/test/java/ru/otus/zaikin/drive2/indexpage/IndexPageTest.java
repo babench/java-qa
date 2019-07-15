@@ -25,23 +25,16 @@ public class IndexPageTest extends DriverBase {
     private WebDriver driver;
     private IndexPagePO indexPagePO;
     private HibernateDao dao;
-    private HibernateFactorySessionHolder sessionHolder;
-
 
     @BeforeMethod
     public void setup() throws MalformedURLException {
-
-        sessionHolder = new HibernateFactorySessionHolder(
-//            String url = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
-                //String url = "jdbc:h2:tcp://localhost/~/test;DB_CLOSE_DELAY=-1;USER=SA;PASSWORD=";
-
-                System.getProperty("DB_URL", "jdbc:h2:tcp://192.168.99.100:1521/~/test;DB_CLOSE_DELAY=-1;USER=SA;PASSWORD="),
+        HibernateFactorySessionHolder sessionHolder = new HibernateFactorySessionHolder(
+                System.getProperty("DB_URL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"),
                 System.getProperty("DB_USER", "SA"),
                 System.getProperty("DB_PASSWORD", "")
         );
         Session session = sessionHolder.openSession();
         dao = new HibernateDao(session);
-
         driver = getDriver();
         indexPagePO = new IndexPagePO(dao);
         indexPagePO.openSite();
@@ -54,7 +47,7 @@ public class IndexPageTest extends DriverBase {
 
     @Test
     public void shouldReadBrends() {
-        System.out.println("IndexPageTest.shouldReadBrends");
+        log.debug("IndexPageTest.shouldReadBrends");
         List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >div>a"));
         assertThat(cars.size()).isEqualTo(54);
     }

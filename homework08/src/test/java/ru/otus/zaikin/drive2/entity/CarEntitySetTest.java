@@ -12,17 +12,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 public class CarEntitySetTest {
     private HibernateDao dao;
-    private HibernateFactorySessionHolder sessionHolder;
 
     @BeforeMethod
     public void setUp() {
-        sessionHolder = new HibernateFactorySessionHolder(
+        HibernateFactorySessionHolder sessionHolder = new HibernateFactorySessionHolder(
                 System.getProperty("DB_URL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"),
                 System.getProperty("DB_USER", "SA"),
                 System.getProperty("DB_PASSWORD", ""));
         Session session = sessionHolder.openSession();
         dao = new HibernateDao(session);
-
     }
 
     @Test

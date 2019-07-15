@@ -52,6 +52,7 @@ public class DriverFactory {
     }
 
     public RemoteWebDriver getDriver(boolean useBrowserMobProxy) throws MalformedURLException {
+        log.debug("DriverFactory.getDriver");
         if (useBrowserMobProxy != usingBrowserMobProxy) {
             quitDriver();
         }
