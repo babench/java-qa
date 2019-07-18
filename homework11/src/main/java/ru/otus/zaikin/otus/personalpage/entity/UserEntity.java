@@ -1,4 +1,4 @@
-package ru.otus.zaikin.otus.personalpage;
+package ru.otus.zaikin.otus.personalpage.entity;
 
 import lombok.Data;
 import lombok.ToString;
@@ -16,7 +16,7 @@ public class UserEntity {
     private String lastNameLatin;
     private String blogName;
 
-    List<ContactInfoEntity> contactInfoEntities;
+    public List<ContactInfoEntity> contactInfoEntities;
 
     public UserEntity() {
         contactInfoEntities = new ArrayList<>();

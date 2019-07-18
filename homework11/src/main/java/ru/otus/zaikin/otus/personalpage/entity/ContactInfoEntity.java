@@ -1,9 +1,10 @@
-package ru.otus.zaikin.otus.personalpage;
+package ru.otus.zaikin.otus.personalpage.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.otus.zaikin.otus.personalpage.ContactInformationChannel;
 
 import java.util.Objects;
 
@@ -12,9 +13,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 public class ContactInfoEntity {
-    ContactInformationChannel channel;
-    String value;
-    boolean preferableChannel;
+   private ContactInformationChannel channel;
+   private String value;
+   private boolean preferableChannel;
 
     @Override
     public boolean equals(Object o) {

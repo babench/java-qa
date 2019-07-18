@@ -28,10 +28,9 @@ public class DriverFactory {
         selectedDriverType = driverType;
     }
 
-    public RemoteWebDriver getDriver() throws MalformedURLException {
+    public RemoteWebDriver getDriver() {
         if (null == webDriver) {
             instantiateWebDriver(selectedDriverType);
-            //  ((JavascriptExecutor) webDriver).executeScript("window.key = \"blahblah\";");
         }
 
         return webDriver;
@@ -39,18 +38,17 @@ public class DriverFactory {
 
     public void quitDriver() {
         if (null != webDriver) {
-            /*TODO: add holdBrowserOpenOnFails*/
             webDriver.quit();
             webDriver = null;
         }
     }
 
-    private void instantiateWebDriver(DriverType driverType) throws MalformedURLException {
+    private void instantiateWebDriver(DriverType driverType) {
         log.debug("DriverFactory.instantiateWebDriver");
         log.debug("Selected Browser: " + selectedDriverType);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         webDriver = driverType.getWebDriverObject(desiredCapabilities);
-        //set bigger in case of capcha
-        webDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        //TODO: Because of this ExpectedConditions.or is not working on LoginPage!
+        webDriver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
     }
 }

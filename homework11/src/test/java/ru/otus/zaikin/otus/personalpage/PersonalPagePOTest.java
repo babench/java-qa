@@ -8,6 +8,8 @@ import org.testng.annotations.Test;
 import ru.otus.zaikin.framework.DriverBase;
 import ru.otus.zaikin.otus.loginpage.LoginPagePO;
 import ru.otus.zaikin.otus.mainpage.MainPagePO;
+import ru.otus.zaikin.otus.personalpage.entity.ContactInfoEntity;
+import ru.otus.zaikin.otus.personalpage.entity.UserEntity;
 
 import java.net.MalformedURLException;
 
@@ -44,14 +46,15 @@ public class PersonalPagePOTest extends DriverBase {
     public void shouldOpen() {
         log.debug("BasePageTest.shouldOpen");
         openPersonalPage();
-        log.debug("here");
+        assertThat(driver.findElement(By.id("id_email")).getAttribute("value")).isEqualToIgnoringCase(System.getProperty("otus.user.id"));
     }
 
     @Test
-    public void shouldReadUserData() {
+    public void shouldWriteAndRead() {
         openPersonalPage();
         personalPagePO.writeUserData(myself);
         personalPagePO.saveFillAllLater();
+        assertThat(driver.findElement(By.cssSelector(".messages")).findElement(By.cssSelector("span")).getAttribute("class")).isEqualToIgnoringCase("success");
 
         mainPagePO.openPersonalPage();
         UserEntity userEntity = personalPagePO.getUserData();
@@ -66,6 +69,7 @@ public class PersonalPagePOTest extends DriverBase {
         openPersonalPage();
         personalPagePO.writeUserData(myself);
         personalPagePO.saveFillAllLater();
+        assertThat(driver.findElement(By.cssSelector(".messages")).findElement(By.cssSelector("span")).getAttribute("class")).isEqualToIgnoringCase("success");
     }
 
     private void openPersonalPage() {

@@ -6,10 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.otus.zaikin.framework.DriverBase;
+import ru.otus.zaikin.otus.exception.LoginException;
 import ru.otus.zaikin.otus.loginpage.LoginPagePO;
 import ru.otus.zaikin.otus.personalpage.PersonalPagePO;
 
 import java.net.MalformedURLException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Log4j2
 public class MainPagePOTest extends DriverBase {
@@ -24,7 +27,7 @@ public class MainPagePOTest extends DriverBase {
         mainPagePO = new MainPagePO();
     }
 
-    @Test
+    @Test(description = "should login")
     public void shouldLogin() {
         login();
         log.debug(driver.findElement(By.cssSelector(".ic-blog-default-avatar")).getAttribute("style"));
@@ -38,11 +41,17 @@ public class MainPagePOTest extends DriverBase {
         loginPagePO.login(userId, userPassword);
     }
 
-    @Test
-    public void shoulLoginAndOpenPersonalPage() {
+    @Test(description = "should login and open personal page")
+    public void shouldLoginAndOpenPersonalPage() {
         login();
         log.debug(driver.findElement(By.cssSelector(".ic-blog-default-avatar")).getAttribute("style"));
         PersonalPagePO personalPagePO = mainPagePO.openPersonalPage();
-        log.debug("here");
+        assertThat(driver.findElement(By.id("id_email")).getAttribute("value")).isEqualToIgnoringCase(System.getProperty("otus.user.id"));
+    }
+
+    @Test(expectedExceptions = LoginException.class, description = "should not login with wrong User/Password")
+    public void shouldNotLogin() {
+        loginPagePO = mainPagePO.openSite().openLoginPage();
+        loginPagePO.login("test", "test");
     }
 }

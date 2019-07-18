@@ -36,8 +36,7 @@ public class DriverBase {
     @AfterMethod(alwaysRun = true)
     public static void clearCookies() {
         try {
-            log.debug("clear?");
-            //getDriver().manage().deleteAllCookies();
+            getDriver().manage().deleteAllCookies();
         } catch (Exception ex) {
             log.error("error", ex);
         }

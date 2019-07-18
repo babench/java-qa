@@ -29,7 +29,6 @@ public class BasePageTest extends DriverBase {
         log.debug("BasePageTest.shouldOpen");
         mainPagePO.openSite();
         assertThat(driver.findElement(By.cssSelector(".header2__logo-img")).isDisplayed()).isTrue();
-        log.debug("here");
     }
 
     @Test

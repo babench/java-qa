@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 public class ContactInformationChannelTest {
 
-    @Test
+    @Test(description = "should read string to enum")
     public void shouldRead() {
         String system = "faCebook";
         ContactInformationChannel contactInformationChannel = ContactInformationChannel.valueOf(system.toUpperCase());
