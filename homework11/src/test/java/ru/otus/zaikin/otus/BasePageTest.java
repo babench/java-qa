@@ -31,4 +31,10 @@ public class BasePageTest extends DriverBase {
         assertThat(driver.findElement(By.cssSelector(".header2__logo-img")).isDisplayed()).isTrue();
         log.debug("here");
     }
+
+    @Test
+    public void shouldGetMainPage() {
+        MainPagePO mainPagePO = this.mainPagePO.openSite();
+        assertThat(mainPagePO).isNotNull();
+    }
 }

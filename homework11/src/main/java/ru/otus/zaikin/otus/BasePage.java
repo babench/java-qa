@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.framework.DriverBase;
+import ru.otus.zaikin.otus.mainpage.MainPagePO;
 
 import java.net.MalformedURLException;
 
@@ -20,9 +21,10 @@ public abstract class BasePage {
         }
     }
 
-    public void openSite() {
+    public MainPagePO openSite() {
         log.debug("BasePage.openSite");
         driver.get(OtusConfig.URL);
+        return new MainPagePO();
     }
 
     protected WebDriverWait createAndGetWait(int delay) {
