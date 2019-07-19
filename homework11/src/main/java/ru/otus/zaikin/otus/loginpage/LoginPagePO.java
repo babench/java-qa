@@ -8,8 +8,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.otus.BasePage;
 import ru.otus.zaikin.otus.exception.LoginException;
 
-import java.util.concurrent.TimeUnit;
-
 @Log4j2
 public class LoginPagePO extends BasePage {
     private By loginForm = By.cssSelector(".new-log-reg__form.js-login");
