@@ -6,19 +6,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.framework.DriverBase;
 import ru.otus.zaikin.otus.mainpage.MainPagePO;
 
-import java.net.MalformedURLException;
-
 @Log4j2
 public abstract class BasePage {
     protected RemoteWebDriver driver;
 
     public BasePage() {
         log.debug("BasePage.BasePage");
-        try {
-            driver = DriverBase.getDriver();
-        } catch (MalformedURLException e) {
-            log.error("error", e);
-        }
+        driver = DriverBase.getDriver();
     }
 
     public MainPagePO openSite() {

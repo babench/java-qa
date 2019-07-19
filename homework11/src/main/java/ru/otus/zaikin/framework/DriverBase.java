@@ -29,7 +29,7 @@ public class DriverBase {
         };
     }
 
-    public static RemoteWebDriver getDriver() throws MalformedURLException {
+    public static RemoteWebDriver getDriver() {
         return driverThread.get().getDriver();
     }
 
