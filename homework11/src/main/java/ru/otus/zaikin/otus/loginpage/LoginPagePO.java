@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.otus.zaikin.otus.BasePage;
 import ru.otus.zaikin.otus.exception.LoginException;
 
+import java.util.concurrent.TimeUnit;
+
 @Log4j2
 public class LoginPagePO extends BasePage {
     private By loginForm = By.cssSelector(".new-log-reg__form.js-login");
@@ -24,11 +26,10 @@ public class LoginPagePO extends BasePage {
         driver.findElement(loginForm).findElement(passwordField).sendKeys(userPassword);
         driver.findElement(loginForm).findElement(loginButton).click();
         log.debug("wait results");
-        WebDriverWait wait1 = new WebDriverWait(driver, 10, 200);
-        wait1.until(ExpectedConditions.or(
+        wait.until(ExpectedConditions.or(
                 ExpectedConditions.visibilityOfElementLocated(errorLocator),
                 ExpectedConditions.presenceOfElementLocated(avatarLocator)));
-
+        log.debug("wait passed");
         String errorOfLogin = driver.findElement(errorLocator).getText();
         if (errorOfLogin != null && !errorOfLogin.isEmpty()) throw new LoginException(errorOfLogin);
         return this;

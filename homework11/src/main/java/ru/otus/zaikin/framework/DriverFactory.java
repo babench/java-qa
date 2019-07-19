@@ -48,7 +48,6 @@ public class DriverFactory {
         log.debug("Selected Browser: " + selectedDriverType);
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
         webDriver = driverType.getWebDriverObject(desiredCapabilities);
-        //TODO: Because of this ExpectedConditions.or is not working on LoginPage!
-        webDriver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+        webDriver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
     }
 }
