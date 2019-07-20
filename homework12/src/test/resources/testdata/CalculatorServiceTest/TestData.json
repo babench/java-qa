@@ -1,0 +1,128 @@
+{
+  "tc001_plus": [
+    {
+      "rowID": "tc001_plus.01",
+      "description": "should plus",
+      "a": "1",
+      "b": "2",
+      "result": "3"
+    },
+    {
+      "rowID": "tc001_plus.02",
+      "description": "should plus",
+      "a": "-1",
+      "b": "1",
+      "result": "0"
+    }
+  ],
+  "tc002_multiply": [
+    {
+      "rowID": "tc002_multiply.01",
+      "description": "should multiply",
+      "a": "0",
+      "b": "2",
+      "result": "0"
+    },
+    {
+      "rowID": "tc002_multiply.02",
+      "description": "should multiply",
+      "a": "2",
+      "b": "3",
+      "result": "6"
+    },
+    {
+      "rowID": "tc002_multiply.03",
+      "description": "should multiply",
+      "a": "-2",
+      "b": "3",
+      "result": "-6"
+    },
+    {
+      "rowID": "tc002_multiply.04",
+      "description": "should calc",
+      "a": "-2",
+      "b": "-3",
+      "result": "6"
+    },
+    {
+      "rowID": "tc002_multiply.05",
+      "description": "should multiply",
+      "a": "10",
+      "b": "0",
+      "result": "0"
+    },
+    {
+      "rowID": "tc002_multiply.06",
+      "description": "should multiply",
+      "a": "10",
+      "b": "10",
+      "result": "100"
+    }
+  ],
+  "tc003_minus": [
+    {
+      "rowID": "tc003_minus.01",
+      "description": "should minus",
+      "a": "5",
+      "b": "2",
+      "result": "3"
+    },
+    {
+      "rowID": "tc003_minus.02",
+      "description": "should minus",
+      "a": "-1",
+      "b": "1",
+      "result": "-2"
+    },
+    {
+      "rowID": "tc003_minus.03",
+      "description": "should minus",
+      "a": "0",
+      "b": "0",
+      "result": "0"
+    }
+  ],
+  "tc004_divide": [
+    {
+      "rowID": "tc004_divide.01",
+      "description": "should divide",
+      "a": "10",
+      "b": "2",
+      "result": "5"
+    },
+    {
+      "rowID": "tc004_divide.02",
+      "description": "should divide",
+      "a": "10",
+      "b": "3",
+      "result": "3"
+    },
+    {
+      "rowID": "tc004_divide.03",
+      "description": "should divide",
+      "a": "0",
+      "b": "1",
+      "result": "0"
+    }
+  ],
+  "tc005_divide_zero": [
+    {
+      "rowID": "tc005_divide_zero.01",
+      "description": "should raise exception",
+      "a": "10",
+      "b": "0"
+    },
+    {
+      "rowID": "tc005_divide_zero.02",
+      "description": "should raise exception",
+      "a": "-10",
+      "b": "0"
+    },
+    {
+      "rowID": "tc005_divide_zero.03",
+      "description": "should raise exception",
+      "a": "0",
+      "b": "0"
+    }
+  ]
+}
