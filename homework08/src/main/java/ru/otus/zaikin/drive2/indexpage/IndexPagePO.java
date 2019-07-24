@@ -23,7 +23,7 @@ public class IndexPagePO extends BasePage {
 
     private By carCardsLocator = By.cssSelector(".c-car-card-sa");
     private By moreCarsButtonLocator = By.cssSelector("button[data-action='catalog.morecars']");
-    private By brandsLocator = By.cssSelector("div.c-index-alt__brands > div > a");
+    private By brandsLocator = By.cssSelector("div.c-index-alt__brands > a");
 
     public IndexPagePO(HibernateDao dao) {
         this.dao = dao;

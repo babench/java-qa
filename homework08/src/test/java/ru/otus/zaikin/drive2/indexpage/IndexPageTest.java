@@ -48,7 +48,7 @@ public class IndexPageTest extends DriverBase {
     @Test
     public void shouldReadBrends() {
         log.debug("IndexPageTest.shouldReadBrends");
-        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >div>a"));
+        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >a"));
         assertThat(cars.size()).isEqualTo(54);
     }
 
@@ -62,7 +62,7 @@ public class IndexPageTest extends DriverBase {
 
     @Test
     public void shouldOpenMazda() {
-        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >div>a"));
+        List<WebElement> cars = driver.findElements(By.cssSelector("div.c-index-alt__brands >a"));
         Optional<WebElement> optionalWebElement = cars.stream().filter(e -> e.getText().equalsIgnoreCase("MAZDA")).findFirst();
         WebElement mazda = optionalWebElement.orElseThrow(() -> new RuntimeException("Mazda not found"));
         assertThat(mazda.getText()).isEqualTo("Mazda");
