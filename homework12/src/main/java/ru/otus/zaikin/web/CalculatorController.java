@@ -18,18 +18,18 @@ public class CalculatorController {
 
     @GetMapping("/calc")
     @ApiOperation("Simple calculator")
-    public Integer calc(@RequestParam("operation") CalculatorOperation operation, @RequestParam("a")
+    public String calc(@RequestParam("operation") CalculatorOperation operation, @RequestParam("a")
     @ApiParam("First operand") Integer a, @RequestParam("b") @ApiParam("Second operand") Integer b) {
 
         switch (operation) {
             case PLUS:
-                return calculatorService.plus(a, b);
+                return String.valueOf(calculatorService.plus(a, b));
             case MINUS:
-                return calculatorService.minus(a, b);
+                return String.valueOf(calculatorService.minus(a, b));
             case MULTIPLY:
-                return calculatorService.multiply(a, b);
+                return String.valueOf(calculatorService.multiply(a, b));
             case DIVIDE:
-                return calculatorService.divide(a, b);
+                return String.valueOf(calculatorService.divide(a, b));
             default:
                 throw new IllegalArgumentException("Unknown operation: " + operation);
         }
