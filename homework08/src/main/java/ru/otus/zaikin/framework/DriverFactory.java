@@ -17,7 +17,6 @@ import static ru.otus.zaikin.framework.DriverType.FIREFOX;
 
 @Log4j2
 public class DriverFactory {
-
     private RemoteWebDriver webDriver;
     private DriverType selectedDriverType;
 
@@ -45,21 +44,16 @@ public class DriverFactory {
     }
 
     public BrowserMobProxy getBrowserMobProxy() {
-        if (usingBrowserMobProxy) {
-            return browserMobProxy;
-        }
+        if (usingBrowserMobProxy) return browserMobProxy;
         return null;
     }
 
-    public RemoteWebDriver getDriver(boolean useBrowserMobProxy) throws MalformedURLException {
-        log.debug("DriverFactory.getDriver");
-        if (useBrowserMobProxy != usingBrowserMobProxy) {
-            quitDriver();
-        }
-        if (null == webDriver) {
-            instantiateWebDriver(selectedDriverType, useBrowserMobProxy);
-        }
+    public RemoteWebDriver
 
+    getDriver(boolean useBrowserMobProxy) throws MalformedURLException {
+        log.trace("getDriver");
+        if (useBrowserMobProxy != usingBrowserMobProxy) quitDriver();
+        if (null == webDriver) instantiateWebDriver(selectedDriverType, useBrowserMobProxy);
         return webDriver;
     }
 
@@ -88,9 +82,7 @@ public class DriverFactory {
                 usingBrowserMobProxy = true;
                 browserMobProxy = new BrowserMobProxyServer();
                 browserMobProxy.start();
-                if (proxyEnabled) {
-                    browserMobProxy.setChainedProxy(new InetSocketAddress(proxyHostname, proxyPort));
-                }
+                if (proxyEnabled) browserMobProxy.setChainedProxy(new InetSocketAddress(proxyHostname, proxyPort));
                 proxy = ClientUtil.createSeleniumProxy(browserMobProxy);
             } else {
                 proxy = new Proxy();

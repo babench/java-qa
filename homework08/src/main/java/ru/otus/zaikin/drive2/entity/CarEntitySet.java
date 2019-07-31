@@ -15,6 +15,7 @@ import java.util.Date;
 @Entity
 @Table(name = "STTM_CAR")
 public class CarEntitySet extends DataSet {
+
     @Column
     String href;
 

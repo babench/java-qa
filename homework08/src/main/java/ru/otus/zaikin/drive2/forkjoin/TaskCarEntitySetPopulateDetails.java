@@ -1,10 +1,8 @@
 package ru.otus.zaikin.drive2.forkjoin;
 
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.WebDriver;
-import ru.otus.zaikin.drive2.carpage.CarPagePO;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
-import ru.otus.zaikin.drive2.hibernate.HibernateDao;
+import ru.otus.zaikin.drive2.page.carpage.CarPagePO;
 import ru.otus.zaikin.framework.DriverBase;
 
 import java.net.MalformedURLException;
@@ -20,39 +18,26 @@ public class TaskCarEntitySetPopulateDetails {
     private final int start; /*start includes in compute*/
     private final int end; /*end not includes to compute*/
     final int size;
-    private final HibernateDao dao;
-    public HibernateDao getDao() {
-        return dao;
-    }
 
-    public TaskCarEntitySetPopulateDetails(List<CarEntitySet> list, int start, int end, HibernateDao dao) {
+    public TaskCarEntitySetPopulateDetails(List<CarEntitySet> list, int start, int end) {
         log.debug("TaskCarEntitySetPopulateDetails");
         this.list = list;
         this.start = start;
         this.end = end;
         this.size = end - start;
-        this.dao = dao;
         log.debug("start:" + this.start);
         log.debug("end:" + this.end);
         log.debug("size:" + this.size);
     }
 
-    TaskCarEntitySetPopulateDetails createSubTask(int subStart, int subEnd, HibernateDao dao) {
-        return new TaskCarEntitySetPopulateDetails(list, start + subStart, start + subEnd, dao);
+    TaskCarEntitySetPopulateDetails createSubTask(int subStart, int subEnd) {
+        return new TaskCarEntitySetPopulateDetails(list, start + subStart, start + subEnd);
     }
 
-    int compute() {
-        //main compute here
+    int compute() throws MalformedURLException {
         int objectsProcessed = 0;
         DriverBase.instantiateDriverObject();
-        WebDriver driver = null;
-        try {
-            driver = DriverBase.getDriver();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        assert driver != null;
-        CarPagePO carPagePO = new CarPagePO(dao);
+        CarPagePO carPagePO = new CarPagePO();
 
         try {
             for (int i = start; i < end; i++)
@@ -68,7 +53,7 @@ public class TaskCarEntitySetPopulateDetails {
         }
 
         log.debug("processed " + objectsProcessed);
-        driver.quit();
+        DriverBase.getDriver().quit();
         return objectsProcessed;
     }
 }

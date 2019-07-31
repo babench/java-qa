@@ -1,4 +1,4 @@
-package ru.otus.zaikin.drive2.carpage;
+package ru.otus.zaikin.drive2.page.carpage;
 
 import com.lazerycode.selenium.util.Query;
 import lombok.extern.log4j.Log4j2;
@@ -6,43 +6,37 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.otus.zaikin.drive2.BasePage;
+import ru.otus.zaikin.drive2.config.ApplicationContextProvider;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
-import ru.otus.zaikin.drive2.hibernate.HibernateDao;
+import ru.otus.zaikin.drive2.page.BasePage;
+import ru.otus.zaikin.drive2.repository.CarEntityRepository;
+import ru.otus.zaikin.drive2.service.CarEntityService;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 @Log4j2
 public class CarPagePO extends BasePage {
-    private HibernateDao dao;
     private Query carBrendElement = new Query(By.cssSelector("a[data-ym-target='car2brand']"), driver);
     private Query carModelElement = new Query(By.cssSelector("a[data-ym-target='car2model']"), driver);
     private Query priceElement = new Query(By.cssSelector(".c-car-forsale__price > strong"), driver);
+    private CarEntityRepository carEntityRepository = ((CarEntityService) ApplicationContextProvider.getInstance().getBean("carEntityService")).getRepository();
 
-
-    public CarPagePO(HibernateDao dao) {
-        this.dao = dao;
-    }
 
     public CarPagePO openCarById(long id) {
-        System.out.println("CarPagePO.openCarById");
-        CarEntitySet entity = dao.get(id, CarEntitySet.class);
-        log.debug(entity);
-        assertThat(entity).isNotNull();
-        driver.get(entity.getHref());
-        Wait wait = new WebDriverWait(driver, 15);
+        log.trace("openCarById");
+        CarEntitySet carEntitySet = carEntityRepository.findById(id).get();
+        log.debug(carEntitySet);
+        driver.get(carEntitySet.getHref());
+        Wait wait = createAndGetWait(15);
         wait.until(ExpectedConditions.visibilityOfElementLocated(priceElement.locator()));
         return this;
     }
 
     public CarPagePO readFieldsAndUpdateEntity(long id) {
-        System.out.println("CarPagePO.readFieldsAndUpdateEntity");
-        CarEntitySet entity = dao.get(id, CarEntitySet.class);
+        log.trace("readFieldsAndUpdateEntity");
+        CarEntitySet entity = carEntityRepository.findById(id).get();
         String carBrend = carBrendElement.findWebElement().getText();
         String model = carModelElement.findWebElement().getText();
         String priceInString = priceElement.findWebElement().getText();
@@ -50,12 +44,12 @@ public class CarPagePO extends BasePage {
 
         //RUR
         if (priceInString.contains("\u20BD")) {
-            price = Double.valueOf(priceInString.replace("\u20BD", "").replace("\u2009", ""));
+            price = Double.parseDouble(priceInString.replace("\u20BD", "").replace("\u2009", ""));
             entity.setCurrency("RUR");
         }
         //USD
         if (priceInString.contains("$")) {
-            price = Double.valueOf(priceInString.replace("$", "").replace("\u2009", "").replace(",", ""));
+            price = Double.parseDouble(priceInString.replace("$", "").replace("\u2009", "").replace(",", ""));
             entity.setCurrency("USD");
         }
 
@@ -72,7 +66,7 @@ public class CarPagePO extends BasePage {
             Pattern pattern = Pattern.compile("\\d{4}");
             Matcher matcher = pattern.matcher(info);
             while (matcher.find()) {
-                Date madeOnDate = new GregorianCalendar(Integer.valueOf(info.substring(matcher.start(), matcher.end())), Calendar.JANUARY, 1).getTime();
+                Date madeOnDate = new GregorianCalendar(Integer.parseInt(info.substring(matcher.start(), matcher.end())), Calendar.JANUARY, 1).getTime();
                 entity.setIssueDate(madeOnDate);
                 break;
             }
@@ -94,8 +88,7 @@ public class CarPagePO extends BasePage {
             entity.setEngineType(info.split(" ")[2]);
         }
 
-        // update record
-        dao.update(entity);
+        carEntityRepository.save(entity);
         return this;
     }
 }

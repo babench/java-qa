@@ -26,110 +26,26 @@
         <log4j-api.version>2.11.2</log4j-api.version>
         <log4j-core.version>2.11.2</log4j-core.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <lombok.version>1.18.8</lombok.version>
-        <!-- Dependency versions -->
         <selenium.version>3.141.59</selenium.version>
+        <query.version>1.2.0</query.version>
+        <lombok.version>1.18.8</lombok.version>
         <webdrivermanager.version>3.6.1</webdrivermanager.version>
         <testng.version>6.14.3</testng.version>
-        <!-- Plugin versions -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
-
         <browsermob-core.version>2.1.5</browsermob-core.version>
         <assertj-core.version>3.11.1</assertj-core.version>
-
-        <!-- Configurable variables -->
-        <threads>1</threads>
-        <browser>chrome</browser>
-        <headless>false</headless>
-        <screenshotDirectory>${project.build.directory}/screenshots</screenshotDirectory>
-        <proxyEnabled>false</proxyEnabled>
-        <proxyHost/>
-        <proxyPort/>
         <h2.version>1.4.199</h2.version>
+        <proxyEnabled>false</proxyEnabled>
         <hibernate-core.version>5.4.2.Final</hibernate-core.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
-        <query.version>1.2.0</query.version>
         <maven-help-plugin.version>3.1.0</maven-help-plugin.version>
+        <spring-data-jpa.version>2.1.9.RELEASE</spring-data-jpa.version>
+        <spring-context-orm.version>5.1.8.RELEASE</spring-context-orm.version>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <env>dev</env>
-            </properties>
-        </profile>
-        <profile>
-            <id>uat</id>
-            <properties>
-                <env>uat</env>
-            </properties>
-        </profile>
-        <profile>
-            <id>preprod</id>
-            <properties>
-                <env>preprod</env>
-            </properties>
-        </profile>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <env>prod</env>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
-        <!-- Loading all ${} -->
-        <filters>
-            <filter>src/main/resources/env/config.${env}.properties</filter>
-            <!--<filter>src/main/resources/log4j2.xml</filter>-->
-        </filters>
-
-        <!-- Map ${} into resources -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>*.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>log4j2.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/webroot</directory>
-                <filtering>false</filtering>
-                <targetPath>webroot</targetPath>
-            </resource>
-
-        </resources>
-
         <plugins>
-            <!-- display isActive profile in compile phase -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-help-plugin</artifactId>
-                <version>${maven-help-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>show-profiles</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>active-profiles</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -138,31 +54,6 @@
                     <target>${java.version}</target>
                 </configuration>
                 <version>${maven-compiler-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven-failsafe-plugin.version}</version>
-                <configuration>
-                    <parallel>methods</parallel>
-                    <threadCount>${threads}</threadCount>
-                    <systemPropertyVariables>
-                        <browser>${browser}</browser>
-                        <headless>${headless}</headless>
-                        <screenshotDirectory>${screenshotDirectory}</screenshotDirectory>
-                        <proxyEnabled>${proxyEnabled}</proxyEnabled>
-                        <proxyHost>${proxyHost}</proxyHost>
-                        <proxyPort>${proxyPort}</proxyPort>
-                    </systemPropertyVariables>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -237,6 +128,21 @@
             <artifactId>jaxb-api</artifactId>
             <version>${jaxb-api.version}</version>
         </dependency>
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-context-orm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring-context-orm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
     </dependencies>
-
 </project>

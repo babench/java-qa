@@ -1,8 +1,9 @@
-package ru.otus.zaikin.drive2;
+package ru.otus.zaikin.drive2.page;
 
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.otus.zaikin.framework.AppProperties;
 import ru.otus.zaikin.framework.DriverBase;
 
 import java.net.MalformedURLException;
@@ -12,7 +13,7 @@ public abstract class BasePage {
     protected RemoteWebDriver driver;
 
     public BasePage() {
-        log.debug("BasePage.BasePage");
+        log.trace("BasePage");
         try {
             driver = DriverBase.getDriver();
         } catch (MalformedURLException e) {
@@ -21,8 +22,8 @@ public abstract class BasePage {
     }
 
     public void openSite() {
-        log.debug("BasePage.openSite");
-        driver.get(Drive2Config.URL);
+        log.trace("openSite");
+        driver.get(AppProperties.getInstance().getProperty("app.url"));
     }
 
     protected WebDriverWait createAndGetWait(int delay) {
@@ -30,8 +31,6 @@ public abstract class BasePage {
     }
 
     protected WebDriverWait createAndGetWait() {
-        return new WebDriverWait(driver, 15);
+        return new WebDriverWait(driver, Integer.parseInt(AppProperties.getInstance().getProperty("app.timeout")));
     }
-
-
 }

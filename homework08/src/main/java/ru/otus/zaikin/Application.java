@@ -1,15 +1,13 @@
 package ru.otus.zaikin;
 
-
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.Session;
-import org.openqa.selenium.WebDriver;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.otus.zaikin.drive2.config.ApplicationContextProvider;
 import ru.otus.zaikin.drive2.entity.CarEntitySet;
 import ru.otus.zaikin.drive2.forkjoin.CarEntitySetProcessor;
 import ru.otus.zaikin.drive2.forkjoin.TaskCarEntitySetPopulateDetails;
-import ru.otus.zaikin.drive2.hibernate.HibernateDao;
-import ru.otus.zaikin.drive2.hibernate.HibernateFactorySessionHolder;
-import ru.otus.zaikin.drive2.indexpage.IndexPagePO;
+import ru.otus.zaikin.drive2.page.indexpage.IndexPagePO;
+import ru.otus.zaikin.drive2.service.CarEntityService;
 import ru.otus.zaikin.framework.DriverBase;
 import ru.otus.zaikin.framework.utils.CSVUtils;
 
@@ -21,44 +19,38 @@ import java.util.List;
 
 @Log4j2
 public class Application {
-    public static final String BREND = "Mazda";
-    private IndexPagePO indexPagePO;
-    private HibernateDao dao;
-    private HibernateFactorySessionHolder sessionHolder;
 
     public static void main(String[] args) throws IOException {
         log.debug("Application.main");
         new Application().start();
     }
 
-    public void start() throws IOException {
+    private void start() throws IOException {
+        log.trace("start");
         DriverBase.instantiateDriverObject();
-
-        sessionHolder = new HibernateFactorySessionHolder(
-                System.getProperty("DB_URL", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"),
-                //System.getProperty("DB_URL", "jdbc:h2:tcp://192.168.99.100:1521/~/test;DB_CLOSE_DELAY=-1;USER=SA;PASSWORD="),
-                System.getProperty("DB_USER", "SA"),
-                System.getProperty("DB_PASSWORD", "")
-        );
-        Session session = sessionHolder.openSession();
-        dao = new HibernateDao(session);
+        AnnotationConfigApplicationContext appContext = ApplicationContextProvider.getInstance();
+        appContext.scan("ru.otus.zaikin.drive2");
+        appContext.refresh();
         log.debug("hibernate started");
-        List<CarEntitySet> list;
-
-        WebDriver driver = DriverBase.getDriver();
-        indexPagePO = new IndexPagePO(dao);
+        IndexPagePO indexPagePO = new IndexPagePO();
         indexPagePO.openSite();
-        //read mazda cards
-        indexPagePO.saveCarsOfBrend(BREND);
-        list = dao.getAll(CarEntitySet.class);
-        //process all records in parallel
-        CarEntitySetProcessor processor = new CarEntitySetProcessor(new TaskCarEntitySetPopulateDetails(list, 0, list.size(), dao));
-        processor.startProcessing();
-
+        String brend = System.getProperty("car.brend", "Mazda");
+        //read cars of brend
+        indexPagePO.saveCarsOfBrend(brend);
         DriverBase.closeDriverObjects();
-        writeToCsvFile(dao.getAll(CarEntitySet.class), "./log/"+BREND+".csv");
+        //process all records in parallel
+        List<CarEntitySet> list = new ArrayList<>();
+        CarEntityService carEntityService = (CarEntityService) ApplicationContextProvider.getInstance().getBean("carEntityService");
+        carEntityService.getRepository().findAll().forEach(list::add);
+        CarEntitySetProcessor processor = new CarEntitySetProcessor(new TaskCarEntitySetPopulateDetails(list, 0, list.size()));
+        processor.startProcessing();
+        DriverBase.closeDriverObjects();
+        //save to csv file
+        List<CarEntitySet> listNew = new ArrayList<>();
+        carEntityService.getRepository().findAll().forEach(listNew::add);
+        writeToCsvFile(listNew, String.format("./log/%s.csv", brend));
         log.debug("processing completed!");
-
+        ApplicationContextProvider.getInstance().close();
     }
 
     private void writeToCsvFile(List<CarEntitySet> list, String csvFile) throws IOException {

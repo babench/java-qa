@@ -21,37 +21,26 @@ public class CSVUtils {
     //https://tools.ietf.org/html/rfc4180
     private static String followCVSformat(String value) {
         String result = value;
-        if (result != null && !result.isEmpty() && result.contains("\"")) {
-            result = result.replace("\"", "\"\"");
-        }
+        if (result != null && !result.isEmpty() && result.contains("\"")) result = result.replace("\"", "\"\"");
         return result;
 
     }
 
     public static void writeLine(Writer w, List<String> values, char separators, char customQuote) throws IOException {
-
         boolean first = true;
 
         //default customQuote is empty
 
-        if (separators == ' ') {
-            separators = DEFAULT_SEPARATOR;
-        }
+        if (separators == ' ') separators = DEFAULT_SEPARATOR;
 
         StringBuilder sb = new StringBuilder();
         for (String value : values) {
-            if (!first) {
-                sb.append(separators);
-            }
-            if (customQuote == ' ') {
-                sb.append(followCVSformat(value));
-            } else {
-                sb.append(customQuote).append(followCVSformat(value)).append(customQuote);
-            }
-
+            if (!first) sb.append(separators);
+            if (customQuote == ' ') sb.append(followCVSformat(value));
+            else sb.append(customQuote).append(followCVSformat(value)).append(customQuote);
             first = false;
         }
-        sb.append("\n");
+        sb.append(System.lineSeparator());
         w.append(sb.toString());
     }
 }
