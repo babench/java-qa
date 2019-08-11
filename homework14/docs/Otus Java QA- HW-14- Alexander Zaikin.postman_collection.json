@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "27bc8a58-76d9-48a6-927e-3ec17943a1cb",
+		"name": "Otus Java QA: HW-14: Alexander Zaikin",
+		"description": "HW-14",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get user repos",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github.v3+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{URL}}/users/{{USER_NAME}}/repos",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users",
+						"{{USER_NAME}}",
+						"repos"
+					]
+				},
+				"description": "Repo issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Get repo issues",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.github.v3+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues"
+					]
+				},
+				"description": "Get repo issues"
+			},
+			"response": []
+		},
+		{
+			"name": "Create issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23d1a155-f7df-4712-84ae-e2a87c486b82",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"ISSUE_NUMBER\", jsonData.number);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Test bug from Postman\",\n    \"body\": \"Not a bug. It is test for HW-14\",\n    \"labels\": [\n        \"bug\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues"
+					]
+				},
+				"description": "Create issues in repo"
+			},
+			"response": []
+		},
+		{
+			"name": "Get issue by number",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d0fc95ec-f6ba-45c1-af2e-f9c35e68e8f2",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/vnd.github.v3+json"
+					}
+				],
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues/{{ISSUE_NUMBER}}",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues",
+						"{{ISSUE_NUMBER}}"
+					]
+				},
+				"description": "Get issue by number"
+			},
+			"response": []
+		},
+		{
+			"name": "Create comment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23d1a155-f7df-4712-84ae-e2a87c486b82",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"body\": \"My comment\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues/{{ISSUE_NUMBER}}/comments",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues",
+						"{{ISSUE_NUMBER}}",
+						"comments"
+					]
+				},
+				"description": "Add comment for the issue"
+			},
+			"response": []
+		},
+		{
+			"name": "Change labels of issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23d1a155-f7df-4712-84ae-e2a87c486b82",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"labels\": [\n        \"enhancement\"\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues/{{ISSUE_NUMBER}}",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues",
+						"{{ISSUE_NUMBER}}"
+					]
+				},
+				"description": "Change labels of issue"
+			},
+			"response": []
+		},
+		{
+			"name": "Close issue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23d1a155-f7df-4712-84ae-e2a87c486b82",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"state\": \"closed\"\n}"
+				},
+				"url": {
+					"raw": "https://{{URL}}/repos/{{USER_NAME}}/{{REPO_NAME}}/issues/{{ISSUE_NUMBER}}",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"repos",
+						"{{USER_NAME}}",
+						"{{REPO_NAME}}",
+						"issues",
+						"{{ISSUE_NUMBER}}"
+					]
+				},
+				"description": "Close issue"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "password",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "AllexGIT",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d0fccfca-db4c-49be-a949-36c9ad852be7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6e8716d1-f27e-4cbd-ac02-92e046b8b29b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
