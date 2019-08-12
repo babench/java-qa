@@ -1,3 +1,4 @@
+@rating
 Feature: Rating of services
 
   Scenario: Top-1 in header and table the same

@@ -1,3 +1,4 @@
+@index
 Feature: Site availability
 
   Scenario: Penalty GIBDD page is available

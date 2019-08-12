@@ -1,3 +1,4 @@
+@login
 Feature: Login to Site
 
   Scenario: Wrong User Name format

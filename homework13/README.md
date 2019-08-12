@@ -30,6 +30,8 @@ raiting.feature
 
 ```mvn test -Dtest="ru.otus.zaikin.gosuslugi.CucumberTestRunnerLoginFeature" -Dme.login=<my_phone> -Dme.password=<my_password>```
 
+```mvn test -Dcucumber.options="--tags @index,@raiting" -Dtest="ru.otus.zaikin.gosuslugi.CucumberTestRunner"``` 
+
 Запустить все тесты через mvn test:
 
 ```mvn test -Dtest="ru.otus.zaikin.gosuslugi.**" -Dme.login=<my_phone> -Dme.password=<my_password>```
