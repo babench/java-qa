@@ -1,8 +1,8 @@
 package ru.otus.zaikin.framework.steps;
 
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 

@@ -1,7 +1,7 @@
 package ru.otus.zaikin.framework.common;
 
 import com.codeborne.selenide.Selenide;
-import cucumber.api.Scenario;
+import io.cucumber.core.api.Scenario;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.concurrent.TimeUnit;

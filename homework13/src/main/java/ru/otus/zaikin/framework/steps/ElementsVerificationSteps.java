@@ -2,7 +2,7 @@ package ru.otus.zaikin.framework.steps;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.Then;
 import lombok.extern.log4j.Log4j2;
 
 import static org.assertj.core.api.Assertions.assertThat;

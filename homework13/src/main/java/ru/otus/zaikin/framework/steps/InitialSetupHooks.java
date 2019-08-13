@@ -1,7 +1,7 @@
 package ru.otus.zaikin.framework.steps;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
+import io.cucumber.core.api.Scenario;
+import io.cucumber.java.Before;
 import lombok.extern.slf4j.Slf4j;
 import ru.otus.zaikin.framework.common.BaseEnvironment;
 

@@ -1,6 +1,6 @@
 package ru.otus.zaikin.framework.steps;
 
-import cucumber.api.java.en.Then;
+import io.cucumber.java.en.Then;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

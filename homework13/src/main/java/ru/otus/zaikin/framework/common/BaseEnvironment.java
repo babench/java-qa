@@ -1,6 +1,6 @@
 package ru.otus.zaikin.framework.common;
 
-import cucumber.api.Scenario;
+import io.cucumber.core.api.Scenario;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import ru.otus.zaikin.framework.annotations.Name;

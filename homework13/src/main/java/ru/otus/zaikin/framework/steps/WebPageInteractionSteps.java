@@ -1,6 +1,6 @@
 package ru.otus.zaikin.framework.steps;
 
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.When;
 import lombok.extern.log4j.Log4j2;
 
 import static com.codeborne.selenide.Selenide.open;
