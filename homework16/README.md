@@ -31,6 +31,7 @@
 
 ```mvn verify -DremoteDriver=true -DgridURL=http://192.168.99.100:4444/wd/hub -Dbrowser=chrome -Dthreads=4```
 
+
 ## Часть 17_1: Облачный Grid [Sauce Lab](https://saucelabs.com). 
 
 -[X] Зарегистрировал учетную запись на сайте.
@@ -39,7 +40,14 @@
 
 Команда запуска:
 
-```mvn verify -DremoteDriver=true -DsauceType=true -DSAUCE_USERNAME=${userName} -DSAUCE_ACCESS_KEY=#{Key}```
+```
+mvn verify -DremoteDriver=true -DremoteType=sauce -DSAUCE_USERNAME=${userName} -DSAUCE_ACCESS_KEY=#{Key}
+```
+
+## Часть 20: Добавление Selenoid
+```
+mvn verify -DremoteDriver=true -DremoteType=selenoid -DgridURL=http://192.168.99.100:4444/wd/hub -Dthreads=4
+```
 
 ## Дополнения
 1. Добавил [Allure](.\docs\2019-08-10 16_39_22_Allure.png):

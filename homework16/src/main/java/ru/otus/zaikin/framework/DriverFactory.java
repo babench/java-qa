@@ -67,8 +67,8 @@ public class DriverFactory {
 
         if (useRemoteWebDriver) {
             log.debug("remote run");
-            boolean useSauceLab = Boolean.getBoolean("sauceType");
-            if (useSauceLab) {
+            String remoteType = System.getProperty("remoteType");
+            if (remoteType != null && !remoteType.isEmpty() && "sauce".equalsIgnoreCase(remoteType)) {
                 String browserName = System.getProperty("browserName") == null ? "chrome" : System.getProperty("browserName");
                 String browserVersion = System.getProperty("browserVersion") == null ? "73.0" : System.getProperty("browserVersion");
                 String platformName = System.getProperty("platformName") == null ? "macOS 10.14" : System.getProperty("platformName");
@@ -98,6 +98,14 @@ public class DriverFactory {
                 String SAUCE_REMOTE_URL = "https://ondemand.eu-central-1.saucelabs.com/wd/hub";
                 webDriver = new RemoteWebDriver(new URL(SAUCE_REMOTE_URL), capabilities);
                 log.debug("sauce driver created");
+            } else if (remoteType != null && !remoteType.isEmpty() && "selenoid".equalsIgnoreCase(remoteType)) {
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                capabilities.setBrowserName("chrome");
+                capabilities.setVersion("latest");
+                capabilities.setCapability("enableVNC", true);
+                capabilities.setCapability("enableVideo", false);
+                URL seleniumGridURL = new URL(System.getProperty("gridURL"));
+                webDriver = new RemoteWebDriver(seleniumGridURL, capabilities);
             } else {
                 log.debug("simple remote");
                 URL seleniumGridURL = new URL(System.getProperty("gridURL"));
