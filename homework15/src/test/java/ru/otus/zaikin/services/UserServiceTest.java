@@ -17,12 +17,6 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
     UserService userService;
 
     @Test
-    public void shouldFindAll() {
-        Collection<Account> accounts = userService.findAll();
-        assertThat(accounts).hasSize(0);
-    }
-
-    @Test
     public void shouldAddFindRemove() {
         Account account = new Account("Zaikin", "Password");
         account = userService.add(account);

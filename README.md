@@ -8,13 +8,12 @@ allexzaikin@gmail.com
 
 ## Преподаватели
 
-Dmitry Eremin
+1. Dmitry Eremin
 
-Semen Vyazemsky
+2. Semen Vyazemsky
 
-Alexey Orehov:
-https://github.com/PokimonZerg
+3. Alexey Orehov: https://github.com/PokimonZerg
 
-Вадим Глушонков: https://github.com/vglushonkov
+4. Вадим Глушонков: https://github.com/vglushonkov
  
-TODO: added next
+5. Loskutnikov Igor: https://github.com/ILoskutnikov/RestAssured

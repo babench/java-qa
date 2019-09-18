@@ -40,10 +40,10 @@ public class BookService {
     }
 
     public void remove(Long bookId) {
-        Book book = bookRepository.getOne(bookId);
-        Account account = book.getAccount();
-        account.getBooks().remove(book);
-        accountRepository.save(account);
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        optionalBook.orElseThrow(() -> new RuntimeException("Not found by id "));
+        Book book = optionalBook.get();
+        remove(book);
     }
 
     public void remove(Book book) {

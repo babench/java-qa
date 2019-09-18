@@ -1,6 +1,7 @@
 package ru.otus.zaikin.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @ToString(exclude = "account")
+@EqualsAndHashCode(exclude = "account")
 public class Book {
 
     @Id

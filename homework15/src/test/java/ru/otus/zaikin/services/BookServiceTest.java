@@ -97,4 +97,16 @@ public class BookServiceTest extends AbstractTestNGSpringContextTests {
         assertThat(accountRepository.findAll()).hasSize(0);
         assertThat(bookRepository.findAll()).hasSize(0);
     }
+
+    @Test
+    public void shouldDeleteBook() {
+        Account account = new Account("ZAIKIN4", "pas");
+        account = userService.add(account);
+        Book book1 = bookService.add(account.getId(), new Book(account, "Onegin", "Pushkin", "Book 1"));
+        Book book2 = bookService.add(account.getId(), new Book(account, "Mednyj vsadnik", "Pushkin", "Book 2"));
+        bookService.remove(book1.getId());
+        assertThat(accountRepository.findAll()).hasSize(1);
+        assertThat(bookRepository.findAll()).hasSize(1);
+        userService.remove(account.getId());
+    }
 }

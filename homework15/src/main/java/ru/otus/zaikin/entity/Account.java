@@ -1,6 +1,7 @@
 package ru.otus.zaikin.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @ToString(exclude = {"password", "books"})
+@EqualsAndHashCode(exclude = "books")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
