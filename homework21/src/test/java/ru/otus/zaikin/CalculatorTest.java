@@ -15,7 +15,6 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 class CalculatorTest {
 
     private AndroidDriver<MobileElement> driver;
