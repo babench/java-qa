@@ -51,10 +51,7 @@ public class ComparePagePO extends BasePage {
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(toCompare.locator(), 20));
 
         Optional<WebElement> optionalWebElement = driver.findElements(By.cssSelector(".n-user-lists_type_compare_in-list_no")).stream().filter(e -> e.getAttribute("data-bem").contains(model)).findFirst();
-        WebElement anyMode = optionalWebElement.orElseThrow(() -> {
-            throw new RuntimeException("not found");
-        });
-
+        WebElement anyMode = optionalWebElement.orElseThrow(() -> new RuntimeException("not found"));
         Actions actions = new Actions(driver);
         actions.moveToElement(anyMode).build().perform();
         driver.executeScript("arguments[0].click();", anyMode);
