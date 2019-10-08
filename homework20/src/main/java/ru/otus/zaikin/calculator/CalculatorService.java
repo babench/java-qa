@@ -15,9 +15,7 @@ public class CalculatorService {
     }
 
     int divide(int a, int b) {
-        if (b == 0) {
-            throw new ArithmeticException("Argument divisor is 0!");
-        }
+        if (b == 0) throw new DivideToZeroException();
         return a / b;
     }
 }
