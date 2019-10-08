@@ -3,6 +3,7 @@ package ru.otus.zaikin.calculator;
 public class CalculatorController {
 
     private final CalculatorService calculatorService;
+
     public CalculatorController(CalculatorService calculatorService) {
         this.calculatorService = calculatorService;
     }
@@ -17,7 +18,11 @@ public class CalculatorController {
             case MULTIPLY:
                 return String.valueOf(calculatorService.multiply(a, b));
             case DIVIDE:
-                return String.valueOf(calculatorService.divide(a, b));
+                try {
+                    return String.valueOf(calculatorService.divide(a, b));
+                } catch (Exception e) {
+                    return e.getLocalizedMessage();
+                }
             default:
                 throw new IllegalArgumentException("Unknown operation: " + operation);
         }
