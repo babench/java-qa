@@ -1,0 +1,44 @@
+node{
+    stage('Checkout')
+    {
+    def gitInfo= checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '6372b9d4-0c95-4167-bd97-3bd0ef3e6c74', url: 'https://github.com/AllexGIT/otus-java-qa-hw19']]])
+    bat "echo BUILD_NUMBER=${env.BUILD_NUMBER} >> info.txt"
+    bat "echo GIT_BRANCH=${gitInfo.GIT_BRANCH} >> info.txt"
+    bat "echo GIT_COMMIT=${gitInfo.GIT_COMMIT} >> info.txt"
+    bat "echo GIT_PREVIOUS_COMMIT=${gitInfo.GIT_PREVIOUS_COMMIT} >> info.txt"
+    bat "echo GIT_PREVIOUS_SUCCESSFUL_COMMIT=${gitInfo.GIT_PREVIOUS_SUCCESSFUL_COMMIT} >> info.txt"
+    bat "echo ${gitInfo.GIT_BRANCH} > git_branch.txt"    
+    }
+
+     try {
+	 stage('Test'){
+          bat "mvn integration-test"
+           }
+		 }
+  finally {
+
+    stage('Allure Report'){
+         allure includeProperties: false, results: [[path: 'target\\allure-results']]
+    }
+
+    stage('E-mail'){
+       emailext to: 'allexzaikin@gmail.com',
+           subject: "Job ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+              body: "Build number=${env.BUILD_NUMBER}"+'<br>'+
+                    "Build status=${currentBuild.currentResult}"+'<br>'+
+                    "Branch name ="+'${FILE,path="git_branch.txt"}'+'<br>'+
+                    "Duration=${currentBuild.duration} ms."+'<br>'+
+               '${FILE,path="target/failsafe-reports/emailable-report.html"}'
+    }
+
+    stage('Slack') {
+         script {
+                    env.branch_name_git = readFile 'git_branch.txt'
+                }
+        slackSend message: "Build number=${env.BUILD_NUMBER}"+';'+
+                    "Build status=${currentBuild.currentResult}"+';'+
+                    "Duration=${currentBuild.duration} ms."+';'+
+                    "Branch name =${env.branch_name_git}"
+    }
+	}
+}
