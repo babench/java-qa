@@ -35,7 +35,7 @@
         <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
         <browsermob-core.version>2.1.5</browsermob-core.version>
         <assertj-core.version>3.11.1</assertj-core.version>
-        <h2.version>1.4.199</h2.version>
+        <h2.version>2.1.210</h2.version>
         <proxyEnabled>false</proxyEnabled>
         <hibernate-core.version>5.4.2.Final</hibernate-core.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
